@@ -1,0 +1,32 @@
+KIND:     Pod
+VERSION:  v1
+
+RESOURCE: livenessProbe <Object>
+
+DESCRIPTION:
+     Periodic probe of container liveness. Container will be restarted if the
+     probe fails. Cannot be updated. More info:
+     https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+
+     Probe describes a health check to be performed against a container to
+     determine whether it is alive or ready to receive traffic.
+
+FIELDS:
+   exec	<Object>
+      command	<[]string>
+   failureThreshold	<integer>
+   httpGet	<Object>
+      host	<string>
+      httpHeaders	<[]Object>
+         name	<string>
+         value	<string>
+      path	<string>
+      port	<string>
+      scheme	<string>
+   initialDelaySeconds	<integer>
+   periodSeconds	<integer>
+   successThreshold	<integer>
+   tcpSocket	<Object>
+      host	<string>
+      port	<string>
+   timeoutSeconds	<integer>
