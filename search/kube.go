@@ -11,7 +11,6 @@ type runnable interface {
 
 type cmdRunner struct{}
 
-// runKubeExplain
 func (runner cmdRunner) run(namespace string) (*bytes.Buffer, *bytes.Buffer, error) {
 	cmd := exec.Command("kubectl", "explain", "--recursive", namespace)
 
