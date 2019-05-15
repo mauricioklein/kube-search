@@ -94,5 +94,7 @@ func loadTree(path string) *spacetree.Node {
 	buffer := bufio.NewReader(file)
 	scanner := bufio.NewScanner(buffer)
 
-	return spacetree.New(scanner, "   ")
+	root, _ := spacetree.New(scanner, "   ")
+
+	return root
 }

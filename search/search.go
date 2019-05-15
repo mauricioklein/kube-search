@@ -48,7 +48,11 @@ func (s *Search) Run() ([]Match, error) {
 
 	// Parse the "Kubectl explain" tree
 	scanner := bufio.NewScanner(stdout)
-	root := spacetree.New(scanner, kubeIndentationSymbol)
+	root, err := spacetree.New(scanner, kubeIndentationSymbol)
+
+	if err != nil {
+		return nil, err
+	}
 
 	// Calculate the matches
 	matches := searchOnTree(root, s.Namespace, s.Resource)
