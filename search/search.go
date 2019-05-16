@@ -21,7 +21,8 @@ type Search struct {
 
 // Match defines a match on the "Kubectl explain" tree
 type Match struct {
-	Namespace string
+	Namespace  string
+	MatchScore float64
 }
 
 // New returns a new instance of Search
@@ -35,6 +36,13 @@ func New(ns string, res string) Search {
 
 func (s *Search) setRunner(r runnable) {
 	s.Runner = r
+}
+
+func newMatch(namespace string, matchScore float64) Match {
+	return Match{
+		Namespace:  namespace,
+		MatchScore: matchScore,
+	}
 }
 
 // Run executes the "Kubectl explain" command
@@ -59,3 +67,9 @@ func (s *Search) Run() ([]Match, error) {
 
 	return matches, nil
 }
+
+type ByMatchScore []Match
+
+func (bms ByMatchScore) Len() int           { return len(bms) }
+func (bms ByMatchScore) Swap(i, j int)      { bms[i], bms[j] = bms[j], bms[i] }
+func (bms ByMatchScore) Less(i, j int) bool { return bms[i].MatchScore < bms[j].MatchScore }
