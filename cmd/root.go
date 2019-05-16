@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/mauricioklein/kube-search/search"
 	"github.com/spf13/cobra"
@@ -38,7 +39,10 @@ func doSearch(namespace, resource string) {
 		os.Exit(1)
 	}
 
+	// Sort the matches by descending matching score
+	sort.Sort(sort.Reverse(search.ByMatchScore(matches)))
+
 	for _, match := range matches {
-		fmt.Println(match.Namespace)
+		fmt.Printf("%s (match score: %f)\n", match.Namespace, match.MatchScore)
 	}
 }
