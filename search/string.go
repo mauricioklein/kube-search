@@ -2,6 +2,8 @@ package search
 
 import (
 	"regexp"
+
+	"github.com/xrash/smetrics"
 )
 
 //
@@ -16,4 +18,8 @@ func sanitizeLine(line string) string {
 	}
 
 	return occurrences[len(occurrences)-1]
+}
+
+func matchingScore(given, target string) float64 {
+	return smetrics.Jaro(given, target)
 }
