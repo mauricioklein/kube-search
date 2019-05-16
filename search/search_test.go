@@ -23,13 +23,22 @@ func TestSearch_Success(t *testing.T) {
 	content, _ := ioutil.ReadFile("../kubectl_test_outputs/resource.txt")
 	buffer := bytes.NewBuffer(content)
 
-	s := New("pod.spec.containers.livenessProbe", "livenessProbe")
+	s := New("pod.spec.containers.livenessProbe.exec", "command")
 	s.setRunner(fakeRunner{stdout: buffer, stderr: nil, err: nil})
 
 	matches, err := s.Run()
 
 	assert.Nil(t, err)
-	assert.Equal(t, []Match{{Namespace: "pod.spec.containers.livenessProbe"}}, matches)
+	assert.Equal(t, []Match{
+		{
+			Namespace:  "pod.spec.containers.livenessProbe.exec",
+			MatchScore: matchingScore("exec", "command"),
+		},
+		{
+			Namespace:  "pod.spec.containers.livenessProbe.exec.command",
+			MatchScore: matchingScore("command", "command"),
+		},
+	}, matches)
 }
 
 func TestSearch_Fail(t *testing.T) {
@@ -37,7 +46,7 @@ func TestSearch_Fail(t *testing.T) {
 
 	stderr := bytes.NewBufferString("kubectl failed")
 
-	s := New("pod.spec.containers.livenessProbe", "livenessProbe")
+	s := New("pod.spec.containers.livenessProbe.exec", "command")
 	s.setRunner(fakeRunner{
 		stdout: nil,
 		stderr: bytes.NewBufferString(errorMsg),
