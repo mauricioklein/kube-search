@@ -1,5 +1,11 @@
 # kube-search
 
+[![Build Status](https://travis-ci.org/mauricioklein/kube-search.svg?branch=master)](https://travis-ci.org/mauricioklein/kube-search)
+![GitHub release](https://img.shields.io/github/release/mauricioklein/kube-search.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5369e243c130ce10f2bc/maintainability)](https://codeclimate.com/github/mauricioklein/kube-search/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/5369e243c130ce10f2bc/test_coverage)](https://codeclimate.com/github/mauricioklein/kube-search/test_coverage)
+
 Fuzzy search K8s fields path by namespace and resource name
 
 ## Requirements
