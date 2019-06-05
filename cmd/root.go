@@ -44,7 +44,7 @@ func doSearch(cfg config) {
 	}
 
 	// Sort the matches by descending matching score
-	sort.Sort(sort.Reverse(search.ByMatchScore(matches)))
+	sort.Sort(search.ByMatchingScore(matches))
 
 	// Get the top n records
 	matches = matches[:cfg.nRecords]

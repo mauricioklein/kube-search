@@ -68,8 +68,10 @@ func (s *Search) Run() ([]Match, error) {
 	return matches, nil
 }
 
-type ByMatchScore []Match
+// ByMatchingScore sorts a slice of Matches in
+// descending order of matching score
+type ByMatchingScore []Match
 
-func (bms ByMatchScore) Len() int           { return len(bms) }
-func (bms ByMatchScore) Swap(i, j int)      { bms[i], bms[j] = bms[j], bms[i] }
-func (bms ByMatchScore) Less(i, j int) bool { return bms[i].MatchScore < bms[j].MatchScore }
+func (bms ByMatchingScore) Len() int           { return len(bms) }
+func (bms ByMatchingScore) Swap(i, j int)      { bms[i], bms[j] = bms[j], bms[i] }
+func (bms ByMatchingScore) Less(i, j int) bool { return bms[i].MatchScore > bms[j].MatchScore }
