@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io/ioutil"
+	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -58,4 +59,41 @@ func TestSearch_Fail(t *testing.T) {
 	assert.Error(t, err)
 	assert.EqualError(t, err, stderr.String())
 	assert.Empty(t, matches)
+}
+
+func TestSortByMatchingScore(t *testing.T) {
+	matches := []Match{
+		{Namespace: "Match 0", MatchScore: 1.0},
+		{Namespace: "Match 1", MatchScore: 0.8},
+		{Namespace: "Match 2", MatchScore: 0.8},
+	}
+
+	cases := []struct {
+		name  string
+		given []Match
+		want  []Match
+	}{
+		{
+			name:  "With different scores in ascending order",
+			given: []Match{matches[1], matches[0]},
+			want:  []Match{matches[0], matches[1]},
+		},
+		{
+			name:  "With different scores in descending order",
+			given: []Match{matches[0], matches[1]},
+			want:  []Match{matches[0], matches[1]},
+		},
+		{
+			name:  "With same scores",
+			given: []Match{matches[1], matches[2]},
+			want:  []Match{matches[1], matches[2]},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			sort.Sort(ByMatchingScore(c.given))
+			assert.Equal(t, c.want, c.given)
+		})
+	}
 }
