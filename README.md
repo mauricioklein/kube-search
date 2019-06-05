@@ -21,7 +21,7 @@ $ go get -v github.com/mauricioklein/kube-search
 
 ## How it works?
 
-Kube search doesn't have any direct dependency to [kubectl official module](https://github.com/kubernetes/kubectl). Instead, the tool relies on the kubectl client available on the running environment. Thus, make
+`kube-search` doesn't have any direct dependency to [kubectl official module](https://github.com/kubernetes/kubectl). Instead, the tool relies on the kubectl client available on the running environment. Thus, make
 sure you have your `kubectl` setup and available in `$PATH`, so `kube-search` can interact with it. New releases
 of `kubectl` doesn't require any change on `kube-search`, as long the interface is backward compatible.
 
@@ -80,4 +80,4 @@ $ go test -v ./...
 
 ## License
 
-Spacetree is licensed under the [MIT](https://opensource.org/licenses/MIT) License.
+`kube-search` is licensed under the [MIT](https://opensource.org/licenses/MIT) License.
