@@ -34,11 +34,11 @@ func TestProcess_FieldOutput(t *testing.T) {
 		{
 			name:      "Partial match",
 			namespace: "pod.spec.containers.livenessProbe.exec.command",
-			resource:  "cumand",
+			resource:  "kowmand",
 			want: []Match{
 				{
 					Namespace:  "pod.spec.containers.livenessProbe.exec.command",
-					MatchScore: matchingScore("command", "cumand"),
+					MatchScore: matchingScore("command", "kowmand"),
 				},
 			},
 		},
