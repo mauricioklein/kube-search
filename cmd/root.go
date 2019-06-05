@@ -31,7 +31,7 @@ func init() {
 
 	RootCmd.Flags().Uint16VarP(&cfg.nRecords, "count", "c", 1, fmt.Sprintf("number of results returned by %s", RootCmd.Use))
 
-	RootCmd.Flags().BoolVarP(&cfg.printScore, "show-score", "s", false, "print the matching score along with the matches")
+	RootCmd.Flags().BoolVar(&cfg.printScore, "show-score", false, "print the matching score along with the matches")
 }
 
 func doSearch(cfg config) {
