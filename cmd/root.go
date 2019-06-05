@@ -9,29 +9,33 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var cfg config
+
 // RootCmd define the Cobra command for the root
 // (i.e. calling kube-search with no command)
 var RootCmd = &cobra.Command{
 	Use:     "kube-search",
+	Short:   "Fuzzy search K8s fields path by namespace and resource name",
 	Version: search.Version,
 	Run: func(cmd *cobra.Command, args []string) {
-		namespace := cmd.Flag("namespace").Value.String()
-		resource := cmd.Flag("resource").Value.String()
-
-		doSearch(namespace, resource)
+		doSearch(cfg)
 	},
 }
 
 func init() {
-	RootCmd.Flags().StringP("namespace", "n", "", "the Kubectl namespace")
+	RootCmd.Flags().StringVarP(&cfg.namespace, "namespace", "n", "", "the Kubectl namespace")
 	RootCmd.MarkFlagRequired("namespace")
 
-	RootCmd.Flags().StringP("resource", "r", "", "the Kubectl resource")
+	RootCmd.Flags().StringVarP(&cfg.resource, "resource", "r", "", "the Kubectl resource")
 	RootCmd.MarkFlagRequired("resource")
+
+	RootCmd.Flags().Uint16VarP(&cfg.nRecords, "count", "c", 1, fmt.Sprintf("number of results returned by %s", RootCmd.Use))
+
+	RootCmd.Flags().BoolVarP(&cfg.printScore, "show-score", "s", false, "print the matching score along with the matches")
 }
 
-func doSearch(namespace, resource string) {
-	s := search.New(namespace, resource)
+func doSearch(cfg config) {
+	s := search.New(cfg.namespace, cfg.resource)
 
 	matches, err := s.Run()
 	if err != nil {
@@ -42,7 +46,11 @@ func doSearch(namespace, resource string) {
 	// Sort the matches by descending matching score
 	sort.Sort(sort.Reverse(search.ByMatchScore(matches)))
 
+	// Get the top n records
+	matches = matches[:cfg.nRecords]
+
+	printer := cfg.printer()
 	for _, match := range matches {
-		fmt.Printf("%s (match score: %f)\n", match.Namespace, match.MatchScore)
+		printer.print(match)
 	}
 }
